@@ -1,0 +1,11 @@
+- hosts: demo
+  become: yes
+  vars:
+          epic: false
+          name: Adam
+  tasks:
+    - name: Ansbile Template
+      template:
+        src: test.j2
+        dest: /tmp/testfile
+        

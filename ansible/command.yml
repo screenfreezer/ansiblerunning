@@ -1,0 +1,12 @@
+- hosts: demo
+  become: yes
+  tasks:
+    - name: Intall all required dependencies
+      yum:
+         name: ['python', 'python3', 'python-setuptools', 'python-dev', 'build-essential', 'python3-pip']
+         state: latest
+
+    - include: tasks/deploy_db.yml
+    - include: tasks/deploy_web.yml
+
+## RAN ONCE BUT DID NOT EXECUTE 

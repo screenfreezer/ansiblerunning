@@ -1,0 +1,10 @@
+- hosts: demo
+  become: yes
+  tasks:
+  roles:
+   - python
+   - mysql_db
+   - flask_web
+   
+
+## RAN ONCE BUT DID NOT EXECUTE 

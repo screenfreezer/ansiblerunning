@@ -1,0 +1,46 @@
+- hosts: demo
+  become: yes
+  tasks:
+
+    - name: Intall all required dependencies
+      apt:
+         name: ['python', 'python3', 'python-setuptools', 'python-dev', 'build-essential', 'python3-pip']
+         state: latest
+
+    - name: Intall MySql database
+      apt: 
+        name: ['mysql-server', 'mysql-client', 'python3-mysqldb'] 
+        state: latest
+    
+    - name: Start mysql Service
+      service:
+        name: mysql
+        state: started
+        enabled: yes
+    
+    - name: Create Application database
+      mysql_db: name=employee_db state=present
+
+    - name: Create Database User
+      mysql_user:
+        name: db_user
+        password: Passw0rd
+        priv: '*.*:ALL'
+        state: present
+        host_all: yes
+        login_unix_socket: /var/run/mysqld/mysqld.sock
+
+
+    - name: Install Python Flask dependencies
+      pip:
+        name: ['flask', 'flask-mysql']
+        state: present
+
+    - name: Copy Source Code
+      copy: src=app.py dest=/opt/app.py
+    
+    - name: Start Web server
+      shell: FLASK_APP=/opt/app.py nohup flask run --host=0.0.0.0 & 
+
+
+## RAN ONCE BUT DID NOT EXECUTE 
